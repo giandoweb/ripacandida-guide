@@ -20,19 +20,17 @@
         
         <div id="map"></div>
         
-        <div id="controls">
-            <button id="geolocate">📍 La mia posizione</button>
-            <div id="poi-list">
-                <h3>Punti di Interesse</h3>
-                <div class="poi-item" data-lat="40.8706" data-lng="15.7344">
-                    <h4>🏰 Centro Storico</h4>
-                    <p>Cuore di Ripacandida con palazzi storici</p>
-                </div>
-                <div class="poi-item" data-lat="40.8701" data-lng="15.7338">
-                    <h4>⛪ Chiesa Madre</h4>
-                    <p>Chiesa di San Donato del XVI secolo</p>
-                </div>
-            </div>
+       <div id="controls">
+    <button id="geolocate">📍 La mia posizione</button>
+    <div id="status" style="text-align:center; padding:0.5rem; background:#fff3cd; border-radius:5px; margin-bottom:0.5rem; font-size:0.8rem;">
+        🔄 Caricamento POI da API...
+    </div>
+    <div id="poi-list">
+        <h3>Punti di Interesse</h3>
+        <div class="poi-item" style="opacity:0.5;">Caricamento...</div>
+    </div>
+</div>
+
         </div>
     </div>
 
