@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ripacandida Guide - City Guide PZ</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>🗺️ Ripacandida Guide</h1>
+            <div class="lang-switch">
+                <button id="lang-it" class="lang-btn active">IT</button>
+                <button id="lang-en" class="lang-btn">EN</button>
+            </div>
+        </header>
+        
+        <div id="map"></div>
+        
+        <div id="controls">
+            <button id="geolocate">📍 La mia posizione</button>
+            <div id="poi-list">
+                <h3>Punti di Interesse</h3>
+                <div class="poi-item" data-lat="40.8706" data-lng="15.7344">
+                    <h4>🏰 Centro Storico</h4>
+                    <p>Cuore di Ripacandida con palazzi storici</p>
+                </div>
+                <div class="poi-item" data-lat="40.8701" data-lng="15.7338">
+                    <h4>⛪ Chiesa Madre</h4>
+                    <p>Chiesa di San Donato del XVI secolo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
