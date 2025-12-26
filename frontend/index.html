@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ripacandida Guide - City Guide PZ</title>
+    <title>Ripacandida Guide - PZ</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div id="app">
@@ -20,21 +19,24 @@
         
         <div id="map"></div>
         
-       <div id="controls">
-    <button id="geolocate">📍 La mia posizione</button>
-    <div id="status" style="text-align:center; padding:0.5rem; background:#fff3cd; border-radius:5px; margin-bottom:0.5rem; font-size:0.8rem;">
-        🔄 Caricamento POI da API...
-    </div>
-    <div id="poi-list">
-        <h3>Punti di Interesse</h3>
-        <div class="poi-item" style="opacity:0.5;">Caricamento...</div>
-    </div>
-</div>
-
+        <div id="sidebar">
+            <button id="menu-toggle">☰</button>
+            <div id="menu">
+                <h3 id="title-poi">Punti di Interesse</h3>
+                <div id="poi-list"></div>
+                
+                <h3 id="title-itinerari">Itinerari</h3>
+                <div class="itinerario" data-places="1,2,3">
+                    <h4>🏰 Centro Storico</h4>
+                    <p>Chiesa + Piazza + Torre</p>
+                </div>
+            </div>
         </div>
+        
+        <button id="geolocate">📍 La mia posizione</button>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="app.js"></script>
+    <script src="app-simple.js"></script>
 </body>
 </html>
