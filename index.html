@@ -1,23 +1,157 @@
 <!DOCTYPE html>
-<html><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ripacandida Guide</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<style>body{margin:0;padding:20px;font-family:system-ui;background:#f0f0f0}
-#map{height:70vh;width:100%;border-radius:15px;box-shadow:0 10px 30px rgba(0,0,0,0.2)}</style>
-</head><body>
-<h1 style="text-align:center;color:#333;margin-bottom:20px">🗺️ Ripacandida Guide</h1>
-<div id="map"></div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const map=L.map('map').setView([40.912,15.725],15);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-L.marker([40.917,15.733]).addTo(map).bindPopup('🏰 Castello');
-L.marker([40.9127,15.7303]).addTo(map).bindPopup('⛪ San Donato');
-if(navigator.geolocation)navigator.geolocation.getCurrentPosition(pos=>{
-L.marker([pos.coords.latitude,pos.coords.longitude]).addTo(map).bindPopup('👤 Tu');
-map.setView([pos.coords.latitude,pos.coords.longitude],14);
-});
-</script>
-</body></html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ripacandida Guide</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:#f8fafc}
+        
+        /* HEADER COMPATTO */
+        header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,.98);backdrop-filter:blur(20px);box-shadow:0 2px 20px rgba(0,0,0,.1);padding:1rem 0}
+        .header-inner{max-width:1400px;margin:0 auto;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center}
+        .logo{font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        
+        /* HAMBURGER MENU */
+        #menu-toggle{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:#667eea;padding:0.5rem}
+        #nav-menu{position:fixed;top:70px;left:0;right:0;background:white;box-shadow:0 5px 20px rgba(0,0,0,.1);transform:translateY(-100%);transition:all .3s;opacity:0}
+        #nav-menu.open{transform:translateY(0);opacity:1}
+        #nav-menu ul{list-style:none;padding:1rem}
+        #nav-menu li{margin:0.5rem 0}
+        #nav-menu a{display:block;color:#334155;text-decoration:none;font-weight:600;padding:1rem 1.5rem;border-radius:12px;transition:all .2s}
+        #nav-menu a:hover{background:#667eea;color:white}
+        
+        /* MAPPA */
+        .hero{padding:90px 1.5rem 2rem;max-width:1400px;margin:0 auto}
+        .hero h1{font-size:clamp(2rem,6vw,3.5rem);font-weight:700;color:#1e293b;margin-bottom:1rem;text-align:center}
+        #map{height:70vh;width:100%;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+        
+        /* SEZIONI */
+        .section{padding:4rem 1.5rem;max-width:1400px;margin:0 auto}
+        .section h2{font-size:2rem;font-weight:700;color:#1e293b;margin-bottom:2rem;text-align:center}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+        .card{background:white;border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.08);transition:all .3s;cursor:pointer}
+        .card:hover{transform:translateY(-8px);box-shadow:0 20px 50px rgba(0,0,0,.15)}
+        .card-img{height:180px;background-size:cover;background-position:center}
+        .card-content{padding:1.5rem}
+        .category{background:#667eea;color:white;padding:.4rem .8rem;border-radius:20px;font-size:.8rem;font-weight:600;display:inline-block;margin-bottom:0.5rem}
+        .card h3{font-size:1.2rem;font-weight:700;color:#1e293b;margin-bottom:0.5rem}
+        .card p{color:#64748b;font-size:.95rem}
+        
+        @media(max-width:768px){
+            #menu-toggle{display:block}
+            .logo{font-size:1.2rem}
+            .hero{padding:80px 1rem 2rem}
+            .section{padding:3rem 1rem}
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER HAMBURGER -->
+    <header>
+        <div class="header-inner">
+            <div class="logo">Ripacandida Guide</div>
+            <button id="menu-toggle">☰</button>
+        </div>
+        <nav id="nav-menu">
+            <ul>
+                <li><a href="#home">🏠 Home</a></li>
+                <li><a href="#map">🗺️ Mappa</a></li>
+                <li><a href="#vedere">👀 Cosa Vedere</a></li>
+                <li><a href="#mangiare">🍽️ Dove Mangiare</a></li>
+                <li><a href="#dormire">🛏️ Dove Dormire</a></li>
+                <li><a href="#chiese">⛪ Chiese</a></li>
+                <li><a href="#percorsi">🚶 Percorsi</a></li>
+                <li><a href="#contatti">✉️ Contatti</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO MAPPA -->
+    <section id="home" class="hero">
+        <h1>Scopri Ripacandida</h1>
+        <div id="map"></div>
+    </section>
+
+    <!-- COSA VEDERE -->
+    <section id="vedere" class="section">
+        <h2>Cosa Vedere</h2>
+        <div class="grid">
+            <div class="card" onclick="map.setView([40.917,15.733],16)">
+                <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1580130775562-0b555d1dce0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                <div class="card-content">
+                    <span class="category">Castello</span>
+                    <h3>Castello Medievale</h3>
+                    <p>Fortezza del XIII secolo con vista panoramica sul Vulture.</p>
+                </div>
+            </div>
+            <div class="card" onclick="map.setView([40.9127,15.7303],16)">
+                <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1571896349840-0d671a90a82a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                <div class="card-content">
+                    <span class="category">Santuario</span>
+                    <h3>Santuario San Donato</h3>
+                    <p>Affreschi giotteschi e reliquie del V secolo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOVE MANGIARE -->
+    <section id="mangiare" class="section">
+        <h2>Dove Mangiare</h2>
+        <div class="grid">
+            <div class="card" onclick="map.setView([40.910,15.725],16)">
+                <div class="card-img" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3133?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')"></div>
+                <div class="card-content">
+                    <span class="category">Ristorante</span>
+                    <h3>La Masseria di Proserpina</h3>
+                    <p>Cucina lucana autentica con Aglianico del Vulture.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // MAPPA Ripacandida
+        const map = L.map('map').setView([40.912, 15.725], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        // POI MARKER
+        const pois = [
+            {coords: [40.917, 15.733], popup: '🏰 Castello Medievale'},
+            {coords: [40.9127, 15.7303], popup: '⛪ Santuario San Donato'},
+            {coords: [40.910, 15.725], popup: '🍽️ La Masseria'}
+        ];
+        pois.forEach(poi => L.marker(poi.coords).addTo(map).bindPopup(poi.popup));
+
+        // GEOLOCALIZZAZIONE
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                L.marker([pos.coords.latitude, pos.coords.longitude])
+                    .addTo(map).bindPopup('👤 La tua posizione').openPopup();
+                map.setView([pos.coords.latitude, pos.coords.longitude], 14);
+            });
+        }
+
+        // HAMBURGER MENU
+        document.getElementById('menu-toggle').onclick = () => {
+            document.getElementById('nav-menu').classList.toggle('open');
+        };
+
+        // SMOOTH SCROLL
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.onclick = e => {
+                e.preventDefault();
+                document.querySelector(a.getAttribute('href')).scrollIntoView({behavior: 'smooth'});
+                document.getElementById('nav-menu').classList.remove('open');
+            };
+        });
+    </script>
+</body>
+</html>
